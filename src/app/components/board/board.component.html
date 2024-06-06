@@ -1,0 +1,17 @@
+<div>
+  <p>First to play:</p>
+  <p (click)="firstToPlayNoughts()">Noughts</p>
+  <p (click)="firstToPlayCross()">Cross</p>
+</div>
+
+<table>
+  <tr>
+    <td *ngFor="let elem of board[0]; index as index" (click)="play(0, index)">{{ elem }}</td>
+  </tr>
+  <tr>
+    <td *ngFor="let elem of board[1]; index as index" (click)="play(1, index)">{{ elem }}</td>
+  </tr>
+  <tr>
+    <td *ngFor="let elem of board[2]; index as index" (click)="play(2, index)">{{ elem }}</td>
+  </tr>
+</table>
