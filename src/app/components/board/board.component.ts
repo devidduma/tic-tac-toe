@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import {NgForOf} from "@angular/common";
+import {ScoresService} from "../../services/scores.service";
+import {Observable} from "rxjs";
+import {Scores} from "../../commons/scores";
 
 @Component({
   selector: 'app-board',
@@ -8,7 +11,10 @@ import {NgForOf} from "@angular/common";
     NgForOf
   ],
   templateUrl: './board.component.html',
-  styleUrl: './board.component.css'
+  styleUrl: './board.component.css',
+  providers: [
+    Scores
+  ]
 })
 export class BoardComponent {
 
@@ -23,6 +29,9 @@ export class BoardComponent {
   private statusIndex: number = 0;
 
   private winningLine: [number, number][] = [];
+
+  constructor(private scoresService: ScoresService) {
+  }
 
   firstToPlayNoughts() {
     if(this.turn == 0)
@@ -47,6 +56,14 @@ export class BoardComponent {
 
       this.checkGameStatus();
     }
+    else if(this.turn == 10) {
+      this.statusIndex = 4;
+      this.scoresService.scores.pointsNoughts = this.scoresService.scores.pointsNoughts + 0.5;
+      this.scoresService.scores.pointsCross = this.scoresService.scores.pointsCross + 0.5;
+    }
+
+    console.log(this.scoresService.scores.pointsNoughts);
+    console.log(this.scoresService.scores.pointsCross);
   }
 
   checkGameStatus() {
@@ -79,9 +96,11 @@ export class BoardComponent {
 
   checkWinner(product: number) {
     if(product == 1) {
-      this.statusIndex = 3;
+      this.statusIndex = 2;
+      this.scoresService.scores.pointsNoughts++;
     } else if(product == 8) {
-      this.statusIndex = 4;
+      this.statusIndex = 3;
+      this.scoresService.scores.pointsCross++;
     }
   }
 
@@ -99,4 +118,13 @@ export class BoardComponent {
     }
   }
 
+  restart() {
+    this.board = [
+      [0,0,0], [0,0,0], [0,0,0]
+    ];
+    this.turn = 0;
+    this.turnShift = 0;
+    this.statusIndex = 0;
+    this.winningLine = [];
+  }
 }
