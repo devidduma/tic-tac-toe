@@ -15,3 +15,7 @@
     <td *ngFor="let elem of board[2]; index as index" (click)="play(2, index)">{{ elem }}</td>
   </tr>
 </table>
+
+<div (click)="restart()">
+  Restart
+</div>
