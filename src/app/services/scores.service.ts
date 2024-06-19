@@ -1,18 +1,34 @@
-import { Injectable } from '@angular/core';
-import {Observable, of} from "rxjs";
+import {Injectable, OnInit} from '@angular/core';
+import {BehaviorSubject, Observable, of} from "rxjs";
 import {Scores} from "../commons/scores";
 
 @Injectable({
   providedIn: 'root'
 })
-export class ScoresService {
+export class ScoresService implements OnInit {
 
-  scores: Scores = new Scores();
+  scores: BehaviorSubject<Scores> = new BehaviorSubject<Scores>({
+    pointsNoughts: 0,
+    pointsCross: 0
+  });
+
+  ngOnInit() {
+
+  }
 
   constructor() { }
 
   getScores(): Observable<Scores> {
-    return of(this.scores);
+    return this.scores.asObservable();
+  }
+
+  setScores(scores: Scores) {
+    this.scores.next(scores);
+    console.log(this.scores);
+  }
+
+  showScores() {
+    console.log(this.scores);
   }
 
 }

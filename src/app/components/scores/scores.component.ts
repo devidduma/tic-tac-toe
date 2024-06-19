@@ -1,11 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {Observable} from "rxjs";
 import {ScoresService} from "../../services/scores.service";
+import {AsyncPipe} from "@angular/common";
 
 @Component({
   selector: 'app-scores',
   standalone: true,
-  imports: [],
+  imports: [
+    AsyncPipe
+  ],
   templateUrl: './scores.component.html',
   styleUrl: './scores.component.css',
   providers: [
@@ -23,7 +26,10 @@ export class ScoresComponent implements OnInit {
     this.scoresService.getScores().subscribe(data => {
       this.pointsNoughts = data.pointsNoughts;
       this.pointsCross = data.pointsCross;
-      console.log("Hi");
     });
+  }
+
+  showData() {
+    this.scoresService.showScores();
   }
 }

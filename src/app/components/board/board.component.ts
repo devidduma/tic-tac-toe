@@ -58,12 +58,23 @@ export class BoardComponent {
     }
     else if(this.turn == 10) {
       this.statusIndex = 4;
-      this.scoresService.scores.pointsNoughts = this.scoresService.scores.pointsNoughts + 0.5;
-      this.scoresService.scores.pointsCross = this.scoresService.scores.pointsCross + 0.5;
+      this.setNewScores(0.5, 0.5);
     }
 
-    console.log(this.scoresService.scores.pointsNoughts);
-    console.log(this.scoresService.scores.pointsCross);
+  }
+
+  setNewScores(addPointsNoughts: number, addPointsCross: number) {
+    let newScores: Scores = {
+      pointsNoughts: 0,
+      pointsCross: 0
+    };
+
+    this.scoresService.getScores().subscribe(data => {
+      newScores.pointsNoughts = data.pointsNoughts + addPointsNoughts;
+      newScores.pointsCross = data.pointsCross + addPointsCross;
+    });
+
+    this.scoresService.setScores(newScores);
   }
 
   checkGameStatus() {
@@ -97,10 +108,10 @@ export class BoardComponent {
   checkWinner(product: number) {
     if(product == 1) {
       this.statusIndex = 2;
-      this.scoresService.scores.pointsNoughts++;
+      this.setNewScores(1,0);
     } else if(product == 8) {
       this.statusIndex = 3;
-      this.scoresService.scores.pointsCross++;
+      this.setNewScores(0, 1);
     }
   }
 
