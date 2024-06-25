@@ -11,9 +11,6 @@ import {AsyncPipe} from "@angular/common";
   ],
   templateUrl: './scores.component.html',
   styleUrl: './scores.component.css',
-  providers: [
-    ScoresService
-  ]
 })
 export class ScoresComponent implements OnInit {
   protected pointsNoughts: number = 0;

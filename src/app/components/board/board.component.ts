@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {NgForOf} from "@angular/common";
 import {ScoresService} from "../../services/scores.service";
-import {Observable} from "rxjs";
+import {Observable, take} from "rxjs";
 import {Scores} from "../../commons/scores";
 
 @Component({
@@ -12,9 +12,6 @@ import {Scores} from "../../commons/scores";
   ],
   templateUrl: './board.component.html',
   styleUrl: './board.component.css',
-  providers: [
-    Scores
-  ]
 })
 export class BoardComponent {
 
@@ -69,7 +66,7 @@ export class BoardComponent {
       pointsCross: 0
     };
 
-    this.scoresService.getScores().subscribe(data => {
+    this.scoresService.getScores().pipe(take(1)).subscribe(data => {
       newScores.pointsNoughts = data.pointsNoughts + addPointsNoughts;
       newScores.pointsCross = data.pointsCross + addPointsCross;
     });

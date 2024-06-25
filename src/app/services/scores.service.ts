@@ -24,7 +24,6 @@ export class ScoresService implements OnInit {
 
   setScores(scores: Scores) {
     this.scores.next(scores);
-    console.log(this.scores);
   }
 
   showScores() {
