@@ -4,6 +4,7 @@ import {BoardComponent} from "./components/board/board.component";
 import {FeedbackComponent} from "./components/feedback/feedback.component";
 import {ScoresComponent} from "./components/scores/scores.component";
 import {ScoresService} from "./services/scores.service";
+import {FeedbackService} from "./services/feedback.service";
 
 @NgModule({
   declarations: [],
@@ -14,7 +15,8 @@ import {ScoresService} from "./services/scores.service";
     ScoresComponent
   ],
   providers: [
-    ScoresService
+    ScoresService,
+    FeedbackService
   ]
 })
 export class AppModule { }

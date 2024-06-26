@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 import {NgForOf} from "@angular/common";
 import {ScoresService} from "../../services/scores.service";
 import {Observable, take} from "rxjs";
 import {Scores} from "../../commons/scores";
+import {FeedbackService} from "../../services/feedback.service";
 
 @Component({
   selector: 'app-board',
@@ -27,8 +28,7 @@ export class BoardComponent {
 
   private winningLine: [number, number][] = [];
 
-  constructor(private scoresService: ScoresService) {
-  }
+  constructor(private scoresService: ScoresService, private feedbackService: FeedbackService) {}
 
   firstToPlayNoughts() {
     if(this.turn == 0)
@@ -53,7 +53,7 @@ export class BoardComponent {
 
       this.checkGameStatus();
     }
-    else if(this.turn == 10) {
+    if(this.turn == 9 && this.statusIndex == 1) {
       this.statusIndex = 4;
       this.setNewScores(0.5, 0.5);
     }
@@ -72,6 +72,13 @@ export class BoardComponent {
     });
 
     this.scoresService.setScores(newScores);
+
+    if(addPointsNoughts == 1)
+      this.feedbackService.setFeedbackMessage("Noughts wins!");
+    else if(addPointsNoughts == 0)
+      this.feedbackService.setFeedbackMessage("Cross wins!");
+    else if(addPointsNoughts == 0.5)
+      this.feedbackService.setFeedbackMessage("It's a draw.");
   }
 
   checkGameStatus() {
