@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
+import {FeedbackService} from "../../services/feedback.service";
 
 @Component({
   selector: 'app-feedback',
@@ -9,4 +10,16 @@ import { Component } from '@angular/core';
 })
 export class FeedbackComponent {
 
+  feedbackMessage: string = "";
+
+  constructor(private feedbackService: FeedbackService) {
+  }
+
+  ngOnInit() {
+    this.feedbackService.getFeedbackMessage().subscribe(data => {
+      this.feedbackMessage = data
+    });
+  }
+
+  protected readonly console = console;
 }
