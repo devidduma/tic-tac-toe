@@ -1,11 +1,15 @@
-<div>
+<div class="grid grid-cols-4 gap-4">
 
-</div>
-<div>
-  <app-board></app-board>
-</div>
-<div>
-  <app-scores></app-scores>
-  <app-feedback></app-feedback>
-</div>
+  <div class="grid grid-cols-subgrid gap-4 col-span-4"></div>
 
+  <div>
+    <app-leftpane></app-leftpane>
+  </div>
+  <div class="grid grid-cols-subgrid gap-4 col-span-2">
+    <app-board></app-board>
+  </div>
+  <div>
+    <app-scores></app-scores>
+    <app-feedback></app-feedback>
+  </div>
+</div>

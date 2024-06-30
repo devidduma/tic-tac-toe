@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
+import {BoardComponent} from "../board/board.component";
+import {BoardService} from "../../services/board.service";
 
 @Component({
   selector: 'app-leftpane',
@@ -9,4 +11,18 @@ import { Component } from '@angular/core';
 })
 export class LeftpaneComponent {
 
+  constructor(private boardService: BoardService) {
+  }
+
+  firstToPlayNoughts() {
+    this.boardService.firstToPlayNoughts();
+  }
+
+  firstToPlayCross() {
+    this.boardService.firstToPlayCross();
+  }
+
+  restart() {
+    this.boardService.restart();
+  }
 }
