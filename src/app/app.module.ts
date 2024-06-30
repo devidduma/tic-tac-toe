@@ -4,6 +4,7 @@ import {ScoresService} from "./services/scores.service";
 import {BoardComponent} from "./components/board/board.component";
 import {FeedbackComponent} from "./components/feedback/feedback.component";
 import {ScoresComponent} from "./components/scores/scores.component";
+import {BoardService} from "./services/board.service";
 
 
 
@@ -16,7 +17,8 @@ import {ScoresComponent} from "./components/scores/scores.component";
     ScoresComponent
   ],
   providers: [
-    ScoresService
+    ScoresService,
+    BoardService
   ]
 })
 export class AppModule { }
