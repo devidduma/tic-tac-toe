@@ -1,5 +1,5 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {ScoresService} from "../../services/scores.service";
 import {Observable, take} from "rxjs";
 import {Scores} from "../../commons/scores";
@@ -10,7 +10,9 @@ import {BoardService} from "../../services/board.service";
   selector: 'app-board',
   standalone: true,
   imports: [
-    NgForOf
+    NgForOf,
+    NgIf,
+    NgOptimizedImage
   ],
   templateUrl: './board.component.html',
   styleUrl: './board.component.css',
