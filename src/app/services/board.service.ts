@@ -37,6 +37,7 @@ export class BoardService {
     if(this.turn == 0)
       this.statusIndex = 1;
 
+    if(this.statusIndex <= 1)
     this.feedbackService.setFeedbackMessage("");
 
     if(this.turn <= 9 && this.statusIndex == 1) {
