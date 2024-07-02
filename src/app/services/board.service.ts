@@ -17,7 +17,7 @@ export class BoardService {
   private turnShift: number = 0;
 
   // "ReadyToStart", "Playing", "NoughtsWin", "CrossWin", "Draw"
-  private statusIndex: number = 0;
+  public statusIndex: number = 0;
 
   private winningLine: [number, number][] = [];
 
@@ -36,6 +36,8 @@ export class BoardService {
   play(row: number, col: number) {
     if(this.turn == 0)
       this.statusIndex = 1;
+
+    this.feedbackService.setFeedbackMessage("");
 
     if(this.turn <= 9 && this.statusIndex == 1) {
 
