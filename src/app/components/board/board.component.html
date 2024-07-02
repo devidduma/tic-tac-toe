@@ -1,21 +1,21 @@
 
 <table class="w-64 h-64 border-2 border-spacing-6">
   <tr class="h-1/3 border-2">
-    <td *ngFor="let elem of board[0]; index as index" (click)="play(0, index)" class="w-1/3 h-1/3 border-2 border-black p-3">
+    <td *ngFor="let elem of board[0]; index as index" (click)="play(0, index)" class="w-1/3 h-1/3 border-2 border-black p-3 cursor-crosshair">
       <div *ngIf="elem == 0"></div>
       <img *ngIf="elem == 1" src="./assets/Noughts.png" />
       <img *ngIf="elem == 2" src="./assets/Cross.png" />
     </td>
   </tr>
   <tr class="h-1/3 border-2">
-    <td *ngFor="let elem of board[1]; index as index" (click)="play(1, index)" class="w-1/3 h-1/3 border-2 border-black p-3">
+    <td *ngFor="let elem of board[1]; index as index" (click)="play(1, index)" class="w-1/3 h-1/3 border-2 border-black p-3 cursor-crosshair">
       <div *ngIf="elem == 0"></div>
       <img *ngIf="elem == 1" src="./assets/Noughts.png" />
       <img *ngIf="elem == 2" src="./assets/Cross.png" />
     </td>
   </tr>
   <tr class="h-1/3 border-2">
-    <td *ngFor="let elem of board[2]; index as index" (click)="play(2, index)" class="w-1/3 h-1/3 border-2 border-black p-3">
+    <td *ngFor="let elem of board[2]; index as index" (click)="play(2, index)" class="w-1/3 h-1/3 border-2 border-black p-3 cursor-crosshair">
       <div *ngIf="elem == 0"></div>
       <img *ngIf="elem == 1" src="./assets/Noughts.png" />
       <img *ngIf="elem == 2" src="./assets/Cross.png" />
