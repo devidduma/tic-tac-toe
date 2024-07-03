@@ -1,27 +1,21 @@
-# TicTacToe
+## Tic-Tac-Toe
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.0.2.
+A game of Tic-Tac-Toe implemented in Angular.
 
-## Development server
+### Presentation
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+| Homepage                                           | Cross starts first                                                 | 
+|----------------------------------------------------|--------------------------------------------------------------------|
+| ![Homepage](src/assets/screenshots/1-Homepage.PNG) | ![CrossStartsFirst](src/assets/screenshots/2-CrossStartsFirst.PNG) |
 
-## Code scaffolding
+| Cross wins                                           | Game restarted                                               | 
+|------------------------------------------------------|--------------------------------------------------------------|
+| ![CrossWins](src/assets/screenshots/3-CrossWins.PNG) | ![GameRestarted](src/assets/screenshots/4-GameRestarted.PNG) |
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+| Noughts starts first                                                   | Noughts wins                                             | 
+|------------------------------------------------------------------------|----------------------------------------------------------|
+| ![NoughtsStartsFirst](src/assets/screenshots/5-NoughtsStartsFirst.PNG) | ![NoughtsWins](src/assets/screenshots/6-NoughtsWins.PNG) |
 
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+| Draw                                       | Score                                        | 
+|--------------------------------------------|----------------------------------------------|
+| ![Draw](src/assets/screenshots/7-Draw.PNG) | ![Score](src/assets/screenshots/8-Score.PNG) |
