@@ -52,7 +52,7 @@ export class BoardService {
     }
     if(this.turn == 9 && this.statusIndex == 1) {
       this.statusIndex = 4;
-      this.setNewScores(0.5, 0.5);
+      this.setNewScores(0, 0);
     }
 
   }
@@ -72,9 +72,9 @@ export class BoardService {
 
     if(addPointsNoughts == 1)
       this.feedbackService.setFeedbackMessage("Noughts wins!");
-    else if(addPointsNoughts == 0)
+    else if(addPointsCross == 1)
       this.feedbackService.setFeedbackMessage("Cross wins!");
-    else if(addPointsNoughts == 0.5)
+    else if(addPointsNoughts == 0 && addPointsCross == 0)
       this.feedbackService.setFeedbackMessage("It's a draw.");
   }
 
