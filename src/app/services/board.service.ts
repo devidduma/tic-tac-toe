@@ -146,7 +146,6 @@ export class BoardService {
       [0,0,0], [0,0,0], [0,0,0]
     ]);
     this.turn = 0;
-    this.turnShift = 0;
     this.statusIndex = 0;
     this.winningLine = [];
   }
