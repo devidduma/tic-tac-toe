@@ -14,7 +14,7 @@ export class BoardService {
   ]);
 
   private turn: number = 0;
-  private turnShift: number = 0;
+  public turnShift: number = 0;
 
   // "ReadyToStart", "Playing", "NoughtsWin", "CrossWin", "Draw"
   public statusIndex: number = 0;

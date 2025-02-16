@@ -1,9 +1,11 @@
-<div>
+<div class="start-first">
   <p class="font-semibold">Who starts first?</p>
-  <p (click)="firstToPlayNoughts()" class="cursor-pointer">Noughts</p>
-  <p (click)="firstToPlayCross()" class="cursor-pointer">Cross</p>
+  <p (click)="firstToPlayNoughts()" class="cursor-pointer"
+     [ngClass]="{'font-semibold': this.startGameWith == 0}">Noughts</p>
+  <p (click)="firstToPlayCross()" class="cursor-pointer"
+     [ngClass]="{'font-semibold': this.startGameWith == 1}">Cross</p>
 </div>
 
-<div (click)="restart()" class="mt-6 cursor-pointer">
-  Restart
+<div (click)="restart()" class="restart mt-6 cursor-pointer">
+  <p>Restart</p>
 </div>
