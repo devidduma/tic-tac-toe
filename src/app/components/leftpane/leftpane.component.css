@@ -1,0 +1,13 @@
+.start-first p {
+  @apply p-1;
+}
+
+@media screen and (orientation: portrait) {
+  .start-first p {
+    @apply p-2;
+  }
+}
+
+p:active {
+  @apply font-semibold;
+}
