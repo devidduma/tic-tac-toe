@@ -1,21 +1,18 @@
-<div class="grid grid-cols-4 gap-4">
+<div class="header centered-content select-none">
+    <h2 class="title text-3xl">Tic-Tac-Toe</h2>
+</div>
 
-  <div class="grid gap-4 col-span-4 my-6">
-    <h2 class="text-center text-3xl">Tic-Tac-Toe</h2>
-  </div>
-
-  <div class="grid grid-cols-subgrid gap-4 col-span-4 my-6"></div>
-
-  <div class="justify-items-end text-xl">
+<div class="centered-content select-none text-lg" style="padding-top: 0">
+  <div class="left-pane">
     <app-leftpane></app-leftpane>
   </div>
-  <div class="grid gap-4 col-span-2 justify-items-center">
+
+  <div class="center-pane">
     <app-board></app-board>
   </div>
-  <div class="justify-items-start text-xl">
-    <app-scores></app-scores>
-    <div class="mt-8"></div>
+
+  <div class="right-pane">
+    <app-scores class="mb-6"></app-scores>
     <app-feedback></app-feedback>
   </div>
-
 </div>

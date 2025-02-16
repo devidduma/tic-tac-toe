@@ -2,12 +2,14 @@ import {Component, OnInit} from '@angular/core';
 import {Observable} from "rxjs";
 import {ScoresService} from "../../services/scores.service";
 import {AsyncPipe} from "@angular/common";
+import {FeedbackComponent} from "../feedback/feedback.component";
 
 @Component({
   selector: 'app-scores',
   standalone: true,
   imports: [
-    AsyncPipe
+    AsyncPipe,
+    FeedbackComponent
   ],
   templateUrl: './scores.component.html',
   styleUrl: './scores.component.css',
