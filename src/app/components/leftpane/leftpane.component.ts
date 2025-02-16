@@ -22,14 +22,14 @@ export class LeftpaneComponent {
 
   firstToPlayNoughts() {
     this.boardService.firstToPlayNoughts();
-    this.startGameWith = 0;
+    this.startGameWith = this.boardService.turnShift;
     if(this.boardService.statusIndex == 0)
       this.feedbackService.setFeedbackMessage("Noughts starts first.");
   }
 
   firstToPlayCross() {
     this.boardService.firstToPlayCross();
-    this.startGameWith = 1;
+    this.startGameWith = this.boardService.turnShift;
     if(this.boardService.statusIndex == 0)
       this.feedbackService.setFeedbackMessage("Cross starts first.");
   }
