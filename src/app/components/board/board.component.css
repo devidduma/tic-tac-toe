@@ -1,0 +1,11 @@
+.table {
+  border-collapse: collapse;
+  cursor: crosshair;
+}
+
+.table td {
+  border: 2px solid black;
+  width: 85px;
+  height: 85px;
+  padding: 15px;
+}
