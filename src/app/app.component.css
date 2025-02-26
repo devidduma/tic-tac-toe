@@ -13,23 +13,26 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 33%;
+}
+.left-pane, .right-pane {
+  width: 20%;
 }
 
 .left-pane {
   align-items: flex-end;
   text-align: right;
+  margin-right: 12%;
 }
 .center-pane {
   align-items: center;
-  margin: 0 15%;
 }
 .right-pane {
   align-items: flex-start;
   text-align: left;
+  margin-left: 12%;
 }
 
-@media screen and (orientation: portrait) {
+@media screen and (orientation: portrait), screen and (orientation: landscape) and (max-width: 768px) {
   .centered-content {
     flex-wrap: wrap;
   }
