@@ -1,3 +1,11 @@
 td {
   @apply p-1;
 }
+
+.points {
+  @apply pl-6;
+}
+
+#score {
+  @apply mb-6 font-semibold;
+}
