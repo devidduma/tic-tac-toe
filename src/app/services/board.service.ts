@@ -19,18 +19,23 @@ export class BoardService {
   // "ReadyToStart", "Playing", "NoughtsWin", "CrossWin", "Draw"
   public statusIndex: number = 0;
 
-  private winningLine: [number, number][] = [];
-
   constructor(private scoresService: ScoresService, private feedbackService: FeedbackService) {
   }
 
   firstToPlayNoughts() {
     if(this.turn == 0)
       this.turnShift = 0;
+
+    if(this.statusIndex == 0)
+      this.feedbackService.setFeedbackMessage("Noughts starts first.");
   }
+
   firstToPlayCross() {
     if(this.turn == 0)
       this.turnShift = 1;
+
+    if(this.statusIndex == 0)
+      this.feedbackService.setFeedbackMessage("Cross starts first.");
   }
 
   play(row: number, col: number) {
@@ -38,7 +43,7 @@ export class BoardService {
       this.statusIndex = 1;
 
     if(this.statusIndex <= 1)
-    this.feedbackService.setFeedbackMessage("");
+      this.feedbackService.setFeedbackMessage("");
 
     if(this.turn <= 9 && this.statusIndex == 1) {
 
@@ -50,11 +55,11 @@ export class BoardService {
 
       this.checkGameStatus();
     }
+
     if(this.turn == 9 && this.statusIndex == 1) {
       this.statusIndex = 4;
       this.setNewScores(0, 0);
     }
-
   }
 
   setNewScores(addPointsNoughts: number, addPointsCross: number) {
@@ -79,9 +84,7 @@ export class BoardService {
   }
 
   checkGameStatus() {
-
     for(let i: number = 0; i < 3; i++) {
-
       // break
       if(this.statusIndex != 1)
         break;
@@ -91,10 +94,11 @@ export class BoardService {
       let productCols: number = 1;
       for(let ii: number = 0; ii < 3; ii++) {
 
-        this.board.pipe(take(1)).subscribe(data => {
-          productRows = productRows * data[i][ii];
-          productCols = productCols * data[ii][i];
-        });
+        let data = this.board.getValue();
+
+        productRows = productRows * data[i][ii];
+        productCols = productCols * data[ii][i];
+        this.board.next(data);
       }
 
       this.checkWinner(productRows);
@@ -104,10 +108,11 @@ export class BoardService {
     let productDiag1: number = 0;
     let productDiag2: number = 0;
 
-    this.board.pipe(take(1)).subscribe(data => {
-      productDiag1 = data[0][0] * data[1][1] * data[2][2];
-      productDiag2 = data[0][2] * data[1][1] * data[2][0];
-    });
+    let data = this.board.getValue();
+
+    productDiag1 = data[0][0] * data[1][1] * data[2][2];
+    productDiag2 = data[0][2] * data[1][1] * data[2][0];
+    this.board.next(data);
 
     this.checkWinner(productDiag1);
     this.checkWinner(productDiag2);
@@ -124,21 +129,23 @@ export class BoardService {
   }
 
   private noughtsPlay(row: number, col: number) {
-    this.board.pipe(take(1)).subscribe(data => {
-      if(data[row][col] == 0) {
-        data[row][col] = 1;
-        this.turn++;
-      }
-    });
+    let data = this.board.getValue()
+
+    if(data[row][col] == 0) {
+      data[row][col] = 1;
+      this.turn++;
+    }
+    this.board.next(data);
   }
 
   private crossPlay(row: number, col: number) {
-    this.board.pipe(take(1)).subscribe(data => {
-      if(data[row][col] == 0) {
-        data[row][col] = 2;
-        this.turn++;
-      }
-    });
+    let data = this.board.getValue();
+
+    if(data[row][col] == 0) {
+      data[row][col] = 2;
+      this.turn++;
+    }
+    this.board.next(data);
   }
 
   restart() {
@@ -147,7 +154,7 @@ export class BoardService {
     ]);
     this.turn = 0;
     this.statusIndex = 0;
-    this.winningLine = [];
-  }
 
+    this.feedbackService.setFeedbackMessage("Game restarted.");
+  }
 }
