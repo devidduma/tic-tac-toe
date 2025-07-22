@@ -15,7 +15,7 @@ import {NgClass} from "@angular/common";
 })
 export class LeftpaneComponent {
 
-  constructor(private boardService: BoardService, private feedbackService: FeedbackService) {
+  constructor(private boardService: BoardService) {
   }
 
   public startGameWith: number = 0;
@@ -23,19 +23,14 @@ export class LeftpaneComponent {
   firstToPlayNoughts() {
     this.boardService.firstToPlayNoughts();
     this.startGameWith = this.boardService.turnShift;
-    if(this.boardService.statusIndex == 0)
-      this.feedbackService.setFeedbackMessage("Noughts starts first.");
   }
 
   firstToPlayCross() {
     this.boardService.firstToPlayCross();
     this.startGameWith = this.boardService.turnShift;
-    if(this.boardService.statusIndex == 0)
-      this.feedbackService.setFeedbackMessage("Cross starts first.");
   }
 
   restart() {
     this.boardService.restart();
-    this.feedbackService.setFeedbackMessage("Game restarted.");
   }
 }
