@@ -68,11 +68,10 @@ export class BoardService {
       pointsCross: 0
     };
 
-    this.scoresService.getScores().pipe(take(1)).subscribe(data => {
-      newScores.pointsNoughts = data.pointsNoughts + addPointsNoughts;
-      newScores.pointsCross = data.pointsCross + addPointsCross;
-    });
+    let data = this.scoresService.scores.getValue();
 
+    newScores.pointsNoughts = data.pointsNoughts + addPointsNoughts;
+    newScores.pointsCross = data.pointsCross + addPointsCross;
     this.scoresService.setScores(newScores);
 
     if(addPointsNoughts == 1)
