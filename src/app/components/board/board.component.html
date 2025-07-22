@@ -1,20 +1,6 @@
 <table class="table">
-  <tr>
-    <td *ngFor="let elem of board[0]; index as index" (click)="play(0, index)">
-      <div *ngIf="elem == 0"></div>
-      <img *ngIf="elem == 1" src="./assets/Noughts.png" />
-      <img *ngIf="elem == 2" src="./assets/Cross.png" />
-    </td>
-  </tr>
-  <tr>
-    <td *ngFor="let elem of board[1]; index as index" (click)="play(1, index)">
-      <div *ngIf="elem == 0"></div>
-      <img *ngIf="elem == 1" src="./assets/Noughts.png" />
-      <img *ngIf="elem == 2" src="./assets/Cross.png" />
-    </td>
-  </tr>
-  <tr>
-    <td *ngFor="let elem of board[2]; index as index" (click)="play(2, index)">
+  <tr *ngFor="let row of board; let r = index">
+    <td *ngFor="let elem of row; let c = index" (click)="play(r, c)">
       <div *ngIf="elem == 0"></div>
       <img *ngIf="elem == 1" src="./assets/Noughts.png" />
       <img *ngIf="elem == 2" src="./assets/Cross.png" />
