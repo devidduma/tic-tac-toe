@@ -1,8 +1,9 @@
-import {Injectable, OnInit} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {ScoresService} from "./scores.service";
 import {FeedbackService} from "./feedback.service";
 import {Scores} from "../commons/scores";
-import {BehaviorSubject, Subject, take} from "rxjs";
+import {BehaviorSubject} from "rxjs";
+import {GameStatus} from "../commons/game-status.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class BoardService {
   public turnShift: number = 0;
 
   // "ReadyToStart", "Playing", "NoughtsWin", "CrossWin", "Draw"
-  public statusIndex: number = 0;
+  public statusIndex: GameStatus = GameStatus.ReadyToStart;
 
   constructor(private scoresService: ScoresService, private feedbackService: FeedbackService) {
   }
@@ -26,7 +27,7 @@ export class BoardService {
     if(this.turn == 0)
       this.turnShift = 0;
 
-    if(this.statusIndex == 0)
+    if(this.statusIndex == GameStatus.ReadyToStart)
       this.feedbackService.setFeedbackMessage("Noughts starts first.");
   }
 
@@ -34,18 +35,18 @@ export class BoardService {
     if(this.turn == 0)
       this.turnShift = 1;
 
-    if(this.statusIndex == 0)
+    if(this.statusIndex == GameStatus.ReadyToStart)
       this.feedbackService.setFeedbackMessage("Cross starts first.");
   }
 
   play(row: number, col: number) {
     if(this.turn == 0)
-      this.statusIndex = 1;
+      this.statusIndex = GameStatus.Playing;
 
-    if(this.statusIndex <= 1)
+    if(this.statusIndex <= GameStatus.Playing)
       this.feedbackService.setFeedbackMessage("");
 
-    if(this.turn <= 9 && this.statusIndex == 1) {
+    if(this.turn <= 9 && this.statusIndex == GameStatus.Playing) {
 
       if((this.turn + this.turnShift) % 2 == 0) {
         this.noughtsPlay(row, col);
@@ -56,8 +57,8 @@ export class BoardService {
       this.checkGameStatus();
     }
 
-    if(this.turn == 9 && this.statusIndex == 1) {
-      this.statusIndex = 4;
+    if(this.turn == 9 && this.statusIndex == GameStatus.Playing) {
+      this.statusIndex = GameStatus.Draw;
       this.setNewScores(0, 0);
     }
   }
@@ -85,7 +86,7 @@ export class BoardService {
   checkGameStatus() {
     for(let i: number = 0; i < 3; i++) {
       // break
-      if(this.statusIndex != 1)
+      if(this.statusIndex != GameStatus.Playing)
         break;
 
       // check winner
@@ -119,10 +120,10 @@ export class BoardService {
 
   checkWinner(product: number) {
     if(product == 1) {
-      this.statusIndex = 2;
+      this.statusIndex = GameStatus.NoughtsWin;
       this.setNewScores(1,0);
     } else if(product == 8) {
-      this.statusIndex = 3;
+      this.statusIndex = GameStatus.CrossWin;
       this.setNewScores(0, 1);
     }
   }
@@ -152,7 +153,7 @@ export class BoardService {
       [0,0,0], [0,0,0], [0,0,0]
     ]);
     this.turn = 0;
-    this.statusIndex = 0;
+    this.statusIndex = GameStatus.ReadyToStart;
 
     this.feedbackService.setFeedbackMessage("Game restarted.");
   }
