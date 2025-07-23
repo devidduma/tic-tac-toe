@@ -4,11 +4,11 @@
   <table>
     <tr>
       <td>Noughts</td>
-      <td class="points">{{ pointsNoughts }}</td>
+      <td class="points">{{ (scores | async)!.pointsNoughts }}</td>
     </tr>
     <tr>
       <td>Cross</td>
-      <td class="points">{{ pointsCross }}</td>
+      <td class="points">{{ (scores | async)!.pointsCross }}</td>
     </tr>
   </table>
 </div>

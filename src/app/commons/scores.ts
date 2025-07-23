@@ -1,4 +1,4 @@
-export class Scores {
-  pointsNoughts: number = 0;
-  pointsCross: number = 0;
+export interface Scores {
+  pointsNoughts: number;
+  pointsCross: number;
 }
