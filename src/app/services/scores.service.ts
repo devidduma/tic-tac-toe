@@ -13,7 +13,6 @@ export class ScoresService implements OnInit {
   });
 
   ngOnInit() {
-
   }
 
   constructor() { }
@@ -25,9 +24,4 @@ export class ScoresService implements OnInit {
   setScores(scores: Scores) {
     this.scores.next(scores);
   }
-
-  showScores() {
-    console.log(this.scores);
-  }
-
 }
