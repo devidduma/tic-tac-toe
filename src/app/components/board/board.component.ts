@@ -1,9 +1,6 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
-import {ScoresService} from "../../services/scores.service";
-import {Observable, take} from "rxjs";
-import {Scores} from "../../commons/scores";
-import {FeedbackService} from "../../services/feedback.service";
+import {Component, OnInit} from '@angular/core';
+import {AsyncPipe, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
+import {Observable} from "rxjs";
 import {BoardService} from "../../services/board.service";
 
 @Component({
@@ -12,27 +9,23 @@ import {BoardService} from "../../services/board.service";
   imports: [
     NgForOf,
     NgIf,
-    NgOptimizedImage
+    AsyncPipe
   ],
   templateUrl: './board.component.html',
   styleUrl: './board.component.css',
 })
 export class BoardComponent implements OnInit {
 
-  board: number[][] = [
-    [0,0,0], [0,0,0], [0,0,0]
-  ];
+  board!: Observable<number[][]>;
 
   constructor(private boardService: BoardService) {
   }
 
   ngOnInit() {
-    this.boardService.board.subscribe(data => {
-      this.board = data;
-    });
+    this.board = this.boardService.getBoard();
   }
 
-  play(number: number, index: number) {
-    this.boardService.play(number, index);
+  play(row: number, col: number) {
+    this.boardService.play(row, col);
   }
 }

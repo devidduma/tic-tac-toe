@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {ScoresService} from "./scores.service";
 import {FeedbackService} from "./feedback.service";
 import {Scores} from "../commons/scores";
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
 import {GameStatus} from "../commons/game-status.enum";
 
 @Injectable({
@@ -13,6 +13,10 @@ export class BoardService {
   board: BehaviorSubject<number[][]> = new BehaviorSubject<number[][]>([
     [0,0,0], [0,0,0], [0,0,0]
   ]);
+
+  getBoard(): Observable<number[][]> {
+    return this.board.asObservable();
+  }
 
   private turn: number = 0;
   public turnShift: number = 0;
