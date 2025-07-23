@@ -1,33 +1,35 @@
-import {Component, ViewChild} from '@angular/core';
-import {BoardComponent} from "../board/board.component";
+import {Component, OnInit} from '@angular/core';
 import {BoardService} from "../../services/board.service";
-import {FeedbackService} from "../../services/feedback.service";
-import {NgClass} from "@angular/common";
+import {AsyncPipe, NgClass} from "@angular/common";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-leftpane',
   standalone: true,
   imports: [
-    NgClass
+    NgClass,
+    AsyncPipe
   ],
   templateUrl: './leftpane.component.html',
   styleUrl: './leftpane.component.css'
 })
-export class LeftpaneComponent {
+export class LeftpaneComponent implements OnInit {
+
+  public firstToPlay!: Observable<number>;
 
   constructor(private boardService: BoardService) {
   }
 
-  public startGameWith: number = 0;
+  ngOnInit() {
+    this.firstToPlay = this.boardService.getFirstToPlay();
+  }
 
   firstToPlayNoughts() {
     this.boardService.firstToPlayNoughts();
-    this.startGameWith = this.boardService.turnShift;
   }
 
   firstToPlayCross() {
     this.boardService.firstToPlayCross();
-    this.startGameWith = this.boardService.turnShift;
   }
 
   restart() {

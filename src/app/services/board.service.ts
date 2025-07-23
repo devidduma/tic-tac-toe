@@ -10,7 +10,7 @@ import {GameStatus} from "../commons/game-status.enum";
 })
 export class BoardService {
 
-  board: BehaviorSubject<number[][]> = new BehaviorSubject<number[][]>([
+  private board: BehaviorSubject<number[][]> = new BehaviorSubject<number[][]>([
     [0,0,0], [0,0,0], [0,0,0]
   ]);
 
@@ -19,7 +19,11 @@ export class BoardService {
   }
 
   private turn: number = 0;
-  public turnShift: number = 0;
+  private firstToPlay: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+
+  getFirstToPlay(): Observable<number> {
+    return this.firstToPlay.asObservable();
+  }
 
   // "ReadyToStart", "Playing", "NoughtsWin", "CrossWin", "Draw"
   public statusIndex: GameStatus = GameStatus.ReadyToStart;
@@ -29,7 +33,7 @@ export class BoardService {
 
   firstToPlayNoughts() {
     if(this.turn == 0)
-      this.turnShift = 0;
+      this.firstToPlay.next(0);
 
     if(this.statusIndex == GameStatus.ReadyToStart)
       this.feedbackService.setFeedbackMessage("Noughts starts first.");
@@ -37,7 +41,7 @@ export class BoardService {
 
   firstToPlayCross() {
     if(this.turn == 0)
-      this.turnShift = 1;
+      this.firstToPlay.next(1);
 
     if(this.statusIndex == GameStatus.ReadyToStart)
       this.feedbackService.setFeedbackMessage("Cross starts first.");
@@ -52,7 +56,7 @@ export class BoardService {
 
     if(this.turn <= 9 && this.statusIndex == GameStatus.Playing) {
 
-      if((this.turn + this.turnShift) % 2 == 0) {
+      if((this.turn + this.firstToPlay.getValue()) % 2 == 0) {
         this.noughtsPlay(row, col);
       } else {
         this.crossPlay(row, col);
