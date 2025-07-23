@@ -17,9 +17,4 @@ export class FeedbackService {
   setFeedbackMessage(message: string) {
     this.feedbackMessage.next(message);
   }
-
-  showMessage() {
-    console.log(this.feedbackMessage);
-  }
-
 }
