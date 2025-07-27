@@ -8,8 +8,8 @@ import {Scores} from "../commons/scores";
 export class ScoresService implements OnInit {
 
   scores: BehaviorSubject<Scores> = new BehaviorSubject<Scores>({
-    pointsNoughts: 0,
-    pointsCross: 0
+    pointsHuman: 0,
+    pointsRobot: 0
   });
 
   ngOnInit() {
