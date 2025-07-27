@@ -66,7 +66,7 @@ export class Board {
     }
   }
 
-  private checkTurn() {
+  checkTurn() {
     let turn = 0;
 
     for(let i: number = 0; i < 3; i++) {

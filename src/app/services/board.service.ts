@@ -6,6 +6,7 @@ import {BehaviorSubject, Observable} from "rxjs";
 import {GameStatus} from "../commons/game-status.enum";
 import {Minimax} from "./minimax";
 import {Board} from "./board";
+import {cloneDeep} from "lodash";
 
 @Injectable({
   providedIn: 'root'
@@ -114,7 +115,7 @@ export class BoardService {
     }
 
     const minimax = new Minimax();
-    const [row, col, score] = minimax.minimax(board, depth, 2);
+    const [row, col, score] = minimax.minimax(cloneDeep(board), depth, 2);
     console.log(row, col, score);
 
     if(board.state[row][col] == 0) {

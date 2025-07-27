@@ -1,4 +1,3 @@
-import {cloneDeep} from "lodash";
 import {Board} from "./board";
 import {GameStatus} from "../commons/game-status.enum";
 
@@ -18,6 +17,9 @@ export class Minimax {
       best = [-1, -1, Infinity];
     }
 
+    // Game status
+    board.checkGameStatus();
+
     // Terminal state
     if(board.statusIndex > GameStatus.Playing) {
       const score = this.evaluate(board.statusIndex);
@@ -33,9 +35,11 @@ export class Minimax {
         }
 
         // Evaluate move for player
-        const nextBoard = cloneDeep(board);
-        nextBoard.makeMove(r, c, player);
-        let score: number[] = this.minimax(nextBoard, depth - 1, player % 2 + 1);
+        board.state[r][c] = player;
+        board.turn += 1;
+        let score: number[] = this.minimax(board, depth - 1, player % 2 + 1);
+        board.state[r][c] = 0;
+        board.turn -= 1;
         score[0] = r;
         score[1] = c;
 
