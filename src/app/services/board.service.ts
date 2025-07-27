@@ -104,7 +104,6 @@ export class BoardService {
 
   private robotPlay() {
     const board = this.board.getValue();
-    const depth = 9 - board.turn;
 
     if(board.statusIndex > GameStatus.Playing) {
       return;
@@ -115,7 +114,7 @@ export class BoardService {
     }
 
     const minimax = new Minimax();
-    const [row, col, score] = minimax.minimax(cloneDeep(board), depth, 2);
+    const [row, col, score] = minimax.minimax(cloneDeep(board), 2);
     console.log(row, col, score);
 
     if(board.state[row][col] == 0) {
