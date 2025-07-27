@@ -1,9 +1,9 @@
 <div class="start-first">
   <p class="font-semibold">Who starts first?</p>
-  <p (click)="firstToPlayNoughts()" class="cursor-pointer"
-     [ngClass]="{'font-semibold': (this.firstToPlay | async) == 0}">Noughts</p>
-  <p (click)="firstToPlayCross()" class="cursor-pointer"
-     [ngClass]="{'font-semibold': (this.firstToPlay | async) == 1}">Cross</p>
+  <p (click)="firstToPlayHuman()" class="cursor-pointer"
+     [ngClass]="{'font-semibold': (this.firstToPlay | async) == 0}">Human</p>
+  <p (click)="firstToPlayRobot()" class="cursor-pointer"
+     [ngClass]="{'font-semibold': (this.firstToPlay | async) == 1}">Robot</p>
 </div>
 
 <div (click)="restart()" class="restart mt-6 cursor-pointer">

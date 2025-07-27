@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AsyncPipe, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {Observable} from "rxjs";
 import {BoardService} from "../../services/board.service";
+import {Board} from "../../services/board";
 
 @Component({
   selector: 'app-board',
@@ -16,7 +17,7 @@ import {BoardService} from "../../services/board.service";
 })
 export class BoardComponent implements OnInit {
 
-  board!: Observable<number[][]>;
+  board!: Observable<Board>;
 
   constructor(private boardService: BoardService) {
   }
@@ -25,7 +26,7 @@ export class BoardComponent implements OnInit {
     this.board = this.boardService.getBoard();
   }
 
-  play(row: number, col: number) {
-    this.boardService.play(row, col);
+  humanPlay(row: number, col: number) {
+    this.boardService.humanPlay(row, col);
   }
 }

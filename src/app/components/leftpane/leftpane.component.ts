@@ -24,12 +24,12 @@ export class LeftpaneComponent implements OnInit {
     this.firstToPlay = this.boardService.getFirstToPlay();
   }
 
-  firstToPlayNoughts() {
-    this.boardService.firstToPlayNoughts();
+  firstToPlayHuman() {
+    this.boardService.firstToPlayHuman();
   }
 
-  firstToPlayCross() {
-    this.boardService.firstToPlayCross();
+  firstToPlayRobot() {
+    this.boardService.firstToPlayRobot();
   }
 
   restart() {
