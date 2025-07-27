@@ -8,7 +8,7 @@ import {GameStatus} from "../commons/game-status.enum";
  */
 
 export class Minimax {
-  minimax(board: Board, depth: number, player: number) {
+  minimax(board: Board, player: number) {
     // Best
     let best: number[];
     if(player == 2) {
@@ -37,7 +37,7 @@ export class Minimax {
         // Evaluate move for player
         board.state[r][c] = player;
         board.turn += 1;
-        let score: number[] = this.minimax(board, depth - 1, player % 2 + 1);
+        let score: number[] = this.minimax(board, player % 2 + 1);
         board.state[r][c] = 0;
         board.turn -= 1;
         score[0] = r;
