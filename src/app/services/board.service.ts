@@ -4,6 +4,7 @@ import {FeedbackService} from "./feedback.service";
 import {Scores} from "../commons/scores";
 import {BehaviorSubject, Observable} from "rxjs";
 import {GameStatus} from "../commons/game-status.enum";
+import {Minimax} from "./minimax";
 
 @Injectable({
   providedIn: 'root'
@@ -59,7 +60,7 @@ export class BoardService {
       if((this.turn + this.firstToPlay.getValue()) % 2 == 0) {
         this.noughtsPlay(row, col);
       } else {
-        this.crossPlay(row, col);
+        this.crossPlay();
       }
 
       this.checkGameStatus();
@@ -146,8 +147,16 @@ export class BoardService {
     this.board.next(data);
   }
 
-  private crossPlay(row: number, col: number) {
+  private crossPlay() {
+    const depth = 9 - this.turn;
+    if(depth == 0 || this.statusIndex == GameStatus.Draw) {
+      return;
+    }
+
     let data = this.board.getValue();
+    const minimax = new Minimax();
+    const [row, col, score] = minimax.minimax(data, depth, 2);
+    console.log(row, col, score);
 
     if(data[row][col] == 0) {
       data[row][col] = 2;
