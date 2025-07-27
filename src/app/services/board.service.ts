@@ -104,10 +104,8 @@ export class BoardService {
       for(let ii: number = 0; ii < 3; ii++) {
 
         let data = this.board.getValue();
-
         productRows = productRows * data[i][ii];
         productCols = productCols * data[ii][i];
-        this.board.next(data);
       }
 
       this.checkWinner(productRows);
@@ -118,10 +116,8 @@ export class BoardService {
     let productDiag2: number = 0;
 
     let data = this.board.getValue();
-
     productDiag1 = data[0][0] * data[1][1] * data[2][2];
     productDiag2 = data[0][2] * data[1][1] * data[2][0];
-    this.board.next(data);
 
     this.checkWinner(productDiag1);
     this.checkWinner(productDiag2);
