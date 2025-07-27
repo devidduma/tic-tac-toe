@@ -1,7 +1,7 @@
 export enum GameStatus {
   ReadyToStart,
   Playing,
-  NoughtsWin,
-  CrossWin,
+  HumanWin,
+  RobotWin,
   Draw
 }
