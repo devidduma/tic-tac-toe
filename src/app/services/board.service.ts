@@ -5,169 +5,139 @@ import {Scores} from "../commons/scores";
 import {BehaviorSubject, Observable} from "rxjs";
 import {GameStatus} from "../commons/game-status.enum";
 import {Minimax} from "./minimax";
+import {Board} from "./board";
 
 @Injectable({
   providedIn: 'root'
 })
 export class BoardService {
 
-  private board: BehaviorSubject<number[][]> = new BehaviorSubject<number[][]>([
-    [0,0,0], [0,0,0], [0,0,0]
-  ]);
+  private board: BehaviorSubject<Board> = new BehaviorSubject<Board>(
+    new Board([[0,0,0], [0,0,0], [0,0,0]])
+  );
 
-  getBoard(): Observable<number[][]> {
+  getBoard(): Observable<Board> {
     return this.board.asObservable();
   }
 
-  private turn: number = 0;
   private firstToPlay: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
   getFirstToPlay(): Observable<number> {
     return this.firstToPlay.asObservable();
   }
 
-  // "ReadyToStart", "Playing", "NoughtsWin", "CrossWin", "Draw"
-  public statusIndex: GameStatus = GameStatus.ReadyToStart;
-
   constructor(private scoresService: ScoresService, private feedbackService: FeedbackService) {
   }
 
-  firstToPlayNoughts() {
-    if(this.turn == 0)
-      this.firstToPlay.next(0);
-
-    if(this.statusIndex == GameStatus.ReadyToStart)
-      this.feedbackService.setFeedbackMessage("Noughts starts first.");
+  firstToPlayHuman() {
+    this.restart(false);
+    this.firstToPlay.next(0);
+    this.feedbackService.setFeedbackMessage("Human starts first.");
   }
 
-  firstToPlayCross() {
-    if(this.turn == 0)
-      this.firstToPlay.next(1);
+  async firstToPlayRobot() {
+    this.restart(false);
+    this.firstToPlay.next(1);
+    this.feedbackService.setFeedbackMessage("Robot starts first.");
 
-    if(this.statusIndex == GameStatus.ReadyToStart)
-      this.feedbackService.setFeedbackMessage("Cross starts first.");
+    await this.wait(750);
+    this.robotPlay();
   }
 
-  play(row: number, col: number) {
-    if(this.turn == 0)
-      this.statusIndex = GameStatus.Playing;
-
-    if(this.statusIndex <= GameStatus.Playing)
-      this.feedbackService.setFeedbackMessage("");
-
-    if(this.turn <= 9 && this.statusIndex == GameStatus.Playing) {
-
-      if((this.turn + this.firstToPlay.getValue()) % 2 == 0) {
-        this.noughtsPlay(row, col);
-      } else {
-        this.crossPlay();
-      }
-
-      this.checkGameStatus();
-    }
-
-    if(this.turn == 9 && this.statusIndex == GameStatus.Playing) {
-      this.statusIndex = GameStatus.Draw;
-      this.setNewScores(0, 0);
-    }
-  }
-
-  setNewScores(addPointsNoughts: number, addPointsCross: number) {
+  private setNewScores(addPointsHuman: number, addPointsRobot: number) {
     let newScores: Scores = {
-      pointsNoughts: 0,
-      pointsCross: 0
+      pointsHuman: 0,
+      pointsRobot: 0
     };
 
     let data = this.scoresService.scores.getValue();
 
-    newScores.pointsNoughts = data.pointsNoughts + addPointsNoughts;
-    newScores.pointsCross = data.pointsCross + addPointsCross;
+    newScores.pointsHuman = data.pointsHuman + addPointsHuman;
+    newScores.pointsRobot = data.pointsRobot + addPointsRobot;
     this.scoresService.setScores(newScores);
 
-    if(addPointsNoughts == 1)
-      this.feedbackService.setFeedbackMessage("Noughts wins!");
-    else if(addPointsCross == 1)
-      this.feedbackService.setFeedbackMessage("Cross wins!");
-    else if(addPointsNoughts == 0 && addPointsCross == 0)
+    if(addPointsHuman == 1)
+      this.feedbackService.setFeedbackMessage("Human wins!");
+    else if(addPointsRobot == 1)
+      this.feedbackService.setFeedbackMessage("Robot wins!");
+    else if(addPointsHuman == 0 && addPointsRobot == 0)
       this.feedbackService.setFeedbackMessage("It's a draw.");
   }
 
-  checkGameStatus() {
-    for(let i: number = 0; i < 3; i++) {
-      // break
-      if(this.statusIndex != GameStatus.Playing)
-        break;
+  private checkGameStatus() {
+    const board = this.board.getValue();
+    board.checkGameStatus();
 
-      // check winner
-      let productRows: number = 1;
-      let productCols: number = 1;
-      for(let ii: number = 0; ii < 3; ii++) {
-
-        let data = this.board.getValue();
-        productRows = productRows * data[i][ii];
-        productCols = productCols * data[ii][i];
-      }
-
-      this.checkWinner(productRows);
-      this.checkWinner(productCols);
-    }
-
-    let productDiag1: number = 0;
-    let productDiag2: number = 0;
-
-    let data = this.board.getValue();
-    productDiag1 = data[0][0] * data[1][1] * data[2][2];
-    productDiag2 = data[0][2] * data[1][1] * data[2][0];
-
-    this.checkWinner(productDiag1);
-    this.checkWinner(productDiag2);
-  }
-
-  checkWinner(product: number) {
-    if(product == 1) {
-      this.statusIndex = GameStatus.NoughtsWin;
+    if(board.statusIndex <= GameStatus.Playing) {
+      this.feedbackService.setFeedbackMessage("");
+    } else if(board.statusIndex == GameStatus.HumanWin) {
       this.setNewScores(1,0);
-    } else if(product == 8) {
-      this.statusIndex = GameStatus.CrossWin;
+    } else if(board.statusIndex == GameStatus.RobotWin) {
       this.setNewScores(0, 1);
+    } else if(board.statusIndex == GameStatus.Draw) {
+      this.setNewScores(0, 0);
     }
   }
 
-  private noughtsPlay(row: number, col: number) {
-    let data = this.board.getValue()
+  async humanPlay(row: number, col: number) {
+    const board = this.board.getValue();
 
-    if(data[row][col] == 0) {
-      data[row][col] = 1;
-      this.turn++;
-    }
-    this.board.next(data);
-  }
-
-  private crossPlay() {
-    const depth = 9 - this.turn;
-    if(depth == 0 || this.statusIndex == GameStatus.Draw) {
+    if(board.statusIndex > GameStatus.Playing) {
       return;
     }
 
-    let data = this.board.getValue();
-    const minimax = new Minimax();
-    const [row, col, score] = minimax.minimax(data, depth, 2);
-    console.log(row, col, score);
-
-    if(data[row][col] == 0) {
-      data[row][col] = 2;
-      this.turn++;
+    if((board.turn + this.firstToPlay.getValue()) % 2 != 0) {
+      return;
     }
-    this.board.next(data);
+
+    if(board.state[row][col] == 0) {
+      board.makeMove(row, col, 1);
+      this.board.next(board);
+
+      this.checkGameStatus();
+
+      await this.wait(500);
+      this.robotPlay();
+    }
   }
 
-  restart() {
-    this.board.next([
-      [0,0,0], [0,0,0], [0,0,0]
-    ]);
-    this.turn = 0;
-    this.statusIndex = GameStatus.ReadyToStart;
+  private robotPlay() {
+    const board = this.board.getValue();
+    const depth = 9 - board.turn;
+
+    if(board.statusIndex > GameStatus.Playing) {
+      return;
+    }
+
+    if((board.turn + this.firstToPlay.getValue()) % 2 != 1) {
+      return;
+    }
+
+    const minimax = new Minimax();
+    const [row, col, score] = minimax.minimax(board, depth, 2);
+    console.log(row, col, score);
+
+    if(board.state[row][col] == 0) {
+      board.makeMove(row, col, 2);
+      this.board.next(board);
+
+      this.checkGameStatus();
+    }
+  }
+
+  async restart(message: boolean = true) {
+    const board = new Board([[0,0,0], [0,0,0], [0,0,0]]);
+    this.board.next(board);
 
     this.feedbackService.setFeedbackMessage("Game restarted.");
+
+    if(this.firstToPlay.getValue() == 1) {
+      await this.wait(750);
+      this.robotPlay();
+    }
+  }
+
+  wait(ms: number): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 }
