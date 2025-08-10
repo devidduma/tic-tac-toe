@@ -8,13 +8,13 @@ import {GameStatus} from "../commons/game-status.enum";
  */
 
 export class Minimax {
-  minimax(board: Board, player: number) {
+  minimax(board: Board, player: number): [number, number, number] {
     // Best
-    let best: number[];
+    let best: [number, number, number][];
     if(player == 2) {
-      best = [-1, -1, -Infinity];
+      best = [[-1, -1, -Infinity]];
     } else {
-      best = [-1, -1, Infinity];
+      best = [[-1, -1, Infinity]];
     }
 
     // Game status
@@ -37,26 +37,31 @@ export class Minimax {
         // Evaluate move for player
         board.state[r][c] = player;
         board.turn += 1;
-        let score: number[] = this.minimax(board, player % 2 + 1);
+        let score: [number, number, number] = this.minimax(board, player % 2 + 1);
         board.state[r][c] = 0;
         board.turn -= 1;
         score[0] = r;
         score[1] = c;
 
         if(player == 2) {
-          if(score[2] > best[2]) {
-            best = score;
+          if(score[2] > best[0][2]) {
+            best = [score];
+          } else if(score[2] == best[0][2]) {
+            best.push(score);
           }
         } else {
-          if(score[2] < best[2]) {
-            best = score;
+          if(score[2] < best[0][2]) {
+            best = [score];
+          } else if(score[2] == best[0][2]) {
+            best.push(score);
           }
         }
       }
     }
 
     // Best: return
-    return best;
+    const randomBest = Math.floor(Math.random() * best.length);
+    return best[randomBest];
   }
 
   private evaluate(statusIndex: GameStatus) {
