@@ -5,15 +5,12 @@ import {Scores} from "../commons/scores";
 @Injectable({
   providedIn: 'root'
 })
-export class ScoresService implements OnInit {
+export class ScoresService {
 
   scores: BehaviorSubject<Scores> = new BehaviorSubject<Scores>({
     pointsHuman: 0,
     pointsRobot: 0
   });
-
-  ngOnInit() {
-  }
 
   constructor() { }
 
