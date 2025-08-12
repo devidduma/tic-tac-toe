@@ -1,6 +1,6 @@
 ## Tic-Tac-Toe
 
-A game of Tic-Tac-Toe implemented in Angular and Tailwind.
+A game of Tic-Tac-Toe using Minimax algorithm, created with Angular and Tailwind.
 
 ### Presentation
 
